@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RepoGuard Triage</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <header class="popup-header">
+      <div class="header-brand">
+        <svg class="header-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="M9 12l2 2 4-4"/>
+        </svg>
+        <span class="header-title">RepoGuard</span>
+      </div>
+      <div class="engine-indicator" id="engine-status-pill">
+        <span class="engine-dot"></span>
+        <span id="engine-status-label">Checking...</span>
+      </div>
+    </header>
+
+    <!-- Context Info Banner -->
+    <div class="context-banner" id="context-banner">
+      <div class="context-repo" id="context-repo">Detecting GitHub page...</div>
+      <div class="context-item" id="context-item"></div>
+    </div>
+
+    <!-- Main Dynamic View -->
+    <main class="popup-content" id="popup-content">
+      <!-- Loading State -->
+      <div class="state-card" id="state-loading">
+        <div class="spinner"></div>
+        <div class="state-text" id="state-loading-text">Connecting to local engine...</div>
+      </div>
+
+      <!-- Engine Offline / Error State -->
+      <div class="state-card error-state" id="state-error" style="display: none;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div class="state-title">Engine Unavailable</div>
+        <p class="state-desc" id="error-message">Make sure the RepoGuard background engine is running locally (e.g. <code>repoguard serve</code>).</p>
+        <button class="btn btn-secondary" id="btn-retry-conn">Retry Connection</button>
+      </div>
+
+      <!-- Ready State (Before Scan) -->
+      <div class="state-card" id="state-ready" style="display: none;">
+        <p class="state-desc" id="ready-prompt">Ready to verify technical claims against repository source and documentation.</p>
+        <button class="btn btn-primary" id="btn-start-scan">Verify Claims Now</button>
+      </div>
+
+      <!-- Results Ready State -->
+      <div class="results-container" id="state-results" style="display: none;">
+        <!-- Assessment Banner -->
+        <div class="assessment-card" id="assessment-card">
+          <div class="assessment-header">
+            <span class="assessment-title" id="assessment-label">Review recommended</span>
+            <span class="confidence-badge" id="confidence-badge">High Confidence</span>
+          </div>
+          <div class="assessment-reason" id="assessment-reason">Key technical claims contradicted by evidence.</div>
+          <div class="result-age" id="result-age">Scan age: Just now</div>
+        </div>
+
+        <!-- Claims Section -->
+        <div class="claims-header">
+          <span>Technical Claims (<span id="claims-count">0</span>)</span>
+        </div>
+        <div class="claims-list" id="claims-list">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="popup-footer">
+      <button class="footer-link" id="btn-open-dashboard">Open Dashboard ↗</button>
+      <span class="version-label">v1.0.0</span>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
+

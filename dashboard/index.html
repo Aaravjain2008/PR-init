@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RepoGuard — Evidence-Based Triage</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Main Navigation">
+      <div class="sidebar-header">
+        <div class="logo-mark">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <span class="logo-title">RepoGuard</span>
+          <span class="logo-subtitle">Evidence Triage</span>
+        </div>
+      </div>
+
+      <nav class="nav-links">
+        <a href="#dashboard" class="nav-item active" data-tab="dashboard">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Dashboard
+        </a>
+        <a href="#triage" class="nav-item" data-tab="triage">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          Triage Queue
+        </a>
+        <a href="#claims" class="nav-item" data-tab="claims">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          Claims & Evidence
+        </a>
+        <a href="#evaluation" class="nav-item" data-tab="evaluation">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Evaluation Benchmark
+        </a>
+        <a href="#contributors" class="nav-item" data-tab="contributors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Contributor Signals
+        </a>
+        <a href="#settings" class="nav-item" data-tab="settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Settings
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="status-pill status-ready" id="sidebar-engine-status">
+          <span class="status-dot"></span>
+          <span id="engine-status-text">Engine Ready</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Top Action Bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="repo-selector">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <input type="text" id="target-repo-input" value="curl/curl" placeholder="owner/repo" aria-label="Target Repository">
+          </div>
+          <div class="time-range-tabs" role="tablist">
+            <button class="time-tab active" role="tab" aria-selected="true">24h</button>
+            <button class="time-tab" role="tab" aria-selected="false">7 days</button>
+            <button class="time-tab" role="tab" aria-selected="false">30 days</button>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="search-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="filter-input" placeholder="Filter claims or items..." aria-label="Filter items">
+          </div>
+          <button class="btn btn-secondary" id="btn-export">Export Results</button>
+          <button class="btn btn-primary" id="btn-run-scan">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            Run Scan
+          </button>
+        </div>
+      </header>
+
+      <!-- System Limits & Scope Bar -->
+      <section class="system-limits-bar" aria-label="System Limits and Scope">
+        <div class="limit-item">
+          <span class="limit-label">API Quota:</span>
+          <span class="limit-value" id="quota-value">Checking...</span>
+        </div>
+        <div class="limit-item">
+          <span class="limit-label">Sandbox:</span>
+          <span class="limit-value" id="sandbox-value">Checking...</span>
+        </div>
+        <div class="limit-item">
+          <span class="limit-label">Ollama AI:</span>
+          <span class="limit-value" id="ollama-value">Checking...</span>
+        </div>
+        <div class="limit-item">
+          <span class="limit-label">Last Scan Age:</span>
+          <span class="limit-value" id="scan-age-value">None</span>
+        </div>
+      </section>
+
+      <!-- TAB 1: Dashboard Overview -->
+      <section id="tab-dashboard" class="tab-pane active">
+        <!-- Stat Cards Row -->
+        <div class="stat-cards-grid">
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Review Recommended</span>
+              <span class="stat-badge badge-warning">Action</span>
+            </div>
+            <div class="stat-number" id="stat-review-count">0</div>
+            <div class="stat-desc">Items with contradicted technical claims</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Claims Supported / Repro</span>
+              <span class="stat-badge badge-success">Verified</span>
+            </div>
+            <div class="stat-number" id="stat-supported-count">0</div>
+            <div class="stat-desc">Claims backed by observable evidence</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Insufficient Evidence</span>
+              <span class="stat-badge badge-neutral">Uncertain</span>
+            </div>
+            <div class="stat-number" id="stat-insufficient-count">0</div>
+            <div class="stat-desc">Lacking reproduction steps or logs</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Total Claims Verified</span>
+              <span class="stat-badge badge-info">Coverage</span>
+            </div>
+            <div class="stat-number" id="stat-total-claims">0</div>
+            <div class="stat-desc">Checked against source and documentation</div>
+          </div>
+        </div>
+
+        <!-- Claim Verdict Mix Bar -->
+        <div class="verdict-mix-card">
+          <div class="verdict-mix-header">
+            <h3>Claim Verdict Distribution</h3>
+            <span class="verdict-mix-legend-title">Ratio across active triage scope</span>
+          </div>
+          <div class="verdict-bar" id="verdict-bar">
+            <div class="bar-segment bar-supported" style="width: 50%;"></div>
+            <div class="bar-segment bar-contradicted" style="width: 25%;"></div>
+            <div class="bar-segment bar-unverifiable" style="width: 25%;"></div>
+          </div>
+          <div class="verdict-legend">
+            <span class="legend-item"><span class="legend-dot dot-supported"></span> Supported (<span id="pct-supported">0%</span>)</span>
+            <span class="legend-item"><span class="legend-dot dot-contradicted"></span> Contradicted (<span id="pct-contradicted">0%</span>)</span>
+            <span class="legend-item"><span class="legend-dot dot-unverifiable"></span> Insufficient / Unverifiable (<span id="pct-unverifiable">0%</span>)</span>
+          </div>
+        </div>
+
+        <!-- Dual Column: Triage Queue & Selected Evidence Inspector -->
+        <div class="dashboard-columns">
+          <!-- Left Column: Triage Items List -->
+          <div class="column-left">
+            <div class="card-header">
+              <h3>Triage Queue</h3>
+              <span class="item-count-badge" id="queue-item-count">0 items</span>
+            </div>
+            <div class="triage-list" id="triage-items-list" role="list">
+              <!-- Dynamically populated -->
+              <div class="empty-state">No scan results loaded. Click "Run Scan" to triage items.</div>
+            </div>
+          </div>
+
+          <!-- Right Column: Detail Inspector Panel -->
+          <div class="column-right">
+            <div class="card-header">
+              <h3>Evidence Inspector</h3>
+              <span class="inspector-badge" id="inspector-status-badge">Select an item</span>
+            </div>
+            <div class="inspector-body" id="inspector-body">
+              <div class="empty-state">Select an issue or pull request on the left to inspect its individual technical claims, evidence, and code citations.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: Evaluation Benchmark -->
+      <section id="tab-evaluation" class="tab-pane">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3>Evaluation Benchmark Harness</h3>
+              <p class="card-subtitle">Tests RepoGuard on historical closed issues carrying labels: <code>invalid</code>, <code>cannot reproduce</code>, and <code>confirmed</code>.</p>
+            </div>
+            <button class="btn btn-primary" id="btn-run-eval">Run Benchmark</button>
+          </div>
+          <div class="eval-metrics-grid" id="eval-metrics-container">
+            <div class="stat-card">
+              <div class="stat-title">Accuracy Rate</div>
+              <div class="stat-number" id="eval-accuracy">-</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-title">Abstentions (Uncertain)</div>
+              <div class="stat-number" id="eval-abstentions">-</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-title">False Positives</div>
+              <div class="stat-number" id="eval-fp">-</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-title">False Negatives</div>
+              <div class="stat-number" id="eval-fn">-</div>
+            </div>
+          </div>
+          <div class="card-section">
+            <h4>Confusion Matrix</h4>
+            <div class="table-responsive">
+              <table class="data-table" id="confusion-matrix-table">
+                <thead>
+                  <tr>
+                    <th>Expected \ Predicted</th>
+                    <th>No strong concern</th>
+                    <th>Review recommended</th>
+                    <th>Insufficient evidence</th>
+                  </tr>
+                </thead>
+                <tbody id="confusion-matrix-body">
+                  <tr><td colspan="4">Click "Run Benchmark" to evaluate against the reference dataset.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: Contributor Signals -->
+      <section id="tab-contributors" class="tab-pane">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3>Contributor Context Signals</h3>
+              <p class="card-subtitle">Secondary signals supporting triage. RepoGuard never scores or labels individuals.</p>
+            </div>
+          </div>
+          <div class="card-section">
+            <div class="info-alert">
+              <strong>Notice:</strong> Contributor signals are factual indicators (account age, repository history, near-duplicate text) intended solely for context. They must never override claim verification.
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Contributor</th>
+                    <th>First Seen in Repo</th>
+                    <th>Near-Duplicate Submissions</th>
+                    <th>Context Summary</th>
+                  </tr>
+                </thead>
+                <tbody id="contributor-signals-body">
+                  <tr>
+                    <td colspan="4">No contributor anomalies detected in current scan.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: Settings -->
+      <section id="tab-settings" class="tab-pane">
+        <div class="card">
+          <div class="card-header">
+            <h3>Engine Configuration</h3>
+          </div>
+          <div class="settings-form">
+            <div class="form-group">
+              <label for="setting-token">GitHub Personal Access Token (Optional)</label>
+              <input type="password" id="setting-token" placeholder="ghp_... (Stored locally only, never transmitted)">
+              <span class="help-text">Increases rate limit from 60 to 5,000 requests/hour.</span>
+            </div>
+            <div class="form-group">
+              <label for="setting-ollama-endpoint">Ollama Endpoint</label>
+              <input type="text" id="setting-ollama-endpoint" value="http://localhost:11434">
+            </div>
+            <div class="form-group">
+              <label for="setting-ollama-model">Ollama Model</label>
+              <input type="text" id="setting-ollama-model" value="llama3.2">
+            </div>
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="setting-ollama-enabled">
+                Enable Optional Local AI Assistant (Ollama)
+              </label>
+            </div>
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="setting-sandbox-enabled">
+                Enable Sandboxed Reproduction (Docker Required)
+              </label>
+            </div>
+            <div class="settings-actions">
+              <button class="btn btn-primary" id="btn-save-settings">Save Settings</button>
+              <button class="btn btn-danger" id="btn-clear-db">Clear Local Database</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
+

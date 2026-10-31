@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "RepoGuard — Evidence-Based Issue & PR Triage",
+  "version": "1.0.0",
+  "description": "Verifies technical claims in GitHub issues and pull requests against repository evidence.",
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://github.com/*",
+    "http://127.0.0.1:18329/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://github.com/*/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "RepoGuard Triage"
+  }
+}
+

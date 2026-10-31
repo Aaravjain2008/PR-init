@@ -1,0 +1,27 @@
+{
+  "repository": "psf/requests",
+  "number": 6000,
+  "title": "Requests throws 'Value Error: too many values to unpack (expected 2)'",
+  "author": "weather_dev",
+  "labels": ["invalid"],
+  "body": "## Bug Report\n\nWhen making a GET request with specific params, requests throws a `ValueError: too many values to unpack (expected 2)`.\n\n### Code to reproduce\n\n```python\nimport os\nfrom datetime import datetime, timezone\nimport requests\nfrom dotenv import load_dotenv\n\nload_dotenv()\nAPI_KEY = os.getenv(\"API_KEY\")\nstart_timestamp = 1630000000\nend_timestamp = 1630003600\n\n# Found example on StackOverflow (stackoverflow.com/questions/12345678)\n# Calling api.weather endpoint\nurl = \"https://api.weather.com/v1/history\"\nsession = requests.Session()\np = requests.PreparedRequest()\np.prepare(url=url)\n\nresponse = requests.get(url, params=[(\"key\", API_KEY, \"extra\")])\n```\n\n### Traceback\n\n```\nTraceback (most recent call last):\n  File \"test.py\", line 18, in <module>\n    response = requests.get(url, params=[(\"key\", API_KEY, \"extra\")])\n  File \"/usr/src/app/weather_provider/.venv/lib/python3.9/site-packages/requests/api.py\", line 75, in get\n    return request('get', url, params=params, **kwargs)\n  File \"/usr/src/app/weather_provider/.venv/lib/python3.9/site-packages/requests/api.py\", line 61, in request\n    return session.request(method=method, url=url, **kwargs)\n  File \"/usr/src/app/weather_provider/.venv/lib/python3.9/site-packages/requests/sessions.py\", line 528, in request\n    p.prepare(\n  File \"/usr/src/app/weather_provider/.venv/lib/python3.9/site-packages/requests/models.py\", line 318, in prepare\n    self.prepare_url(url, params)\n  File \"/usr/src/app/weather_provider/.venv/lib/python3.9/site-packages/requests/models.py\", line 437, in prepare_url\n    for k, vs in to_key_val_list(params):\nValueError: too many values to unpack (expected 2)\n```\n\nTested with requests v2.26.0 on Python 3.9 on Ubuntu 20.04.",
+  "mock_repo_context": {
+    "tree": [
+      {"path": "requests/__init__.py", "type": "blob"},
+      {"path": "requests/api.py", "type": "blob"},
+      {"path": "requests/models.py", "type": "blob"},
+      {"path": "requests/sessions.py", "type": "blob"},
+      {"path": "setup.py", "type": "blob"},
+      {"path": "README.md", "type": "blob"}
+    ],
+    "files": {
+      "requests/__init__.py": "__version__ = '2.26.0'\n",
+      "requests/api.py": "def request(method, url, **kwargs):\n    with sessions.Session() as session:\n        return session.request(method=method, url=url, **kwargs)\n\ndef get(url, params=None, **kwargs):\n    return request('get', url, params=params, **kwargs)\n",
+      "requests/sessions.py": "class Session:\n    def request(self, method, url, params=None, **kwargs):\n        pass\n",
+      "requests/models.py": "class PreparedRequest:\n    def prepare(self, **kwargs):\n        pass\n    def prepare_url(self, url, params):\n        pass\n",
+      "setup.py": "version = '2.26.0'\n",
+      "README.md": "# Requests: HTTP for Humans\nRequests is an elegant and simple HTTP library for Python.\n"
+    }
+  }
+}
+

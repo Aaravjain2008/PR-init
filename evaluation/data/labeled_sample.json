@@ -1,0 +1,114 @@
+[
+  {
+    "id": "curl-1",
+    "repository": "curl/curl",
+    "number": 11001,
+    "title": "Buffer overflow in url.c function parse_url_host",
+    "body": "There is a heap buffer overflow in `url.c` line 520 when passing a long hostname over 4096 bytes to `parse_url_host()`. Tested on v8.1.0.",
+    "labels": ["invalid"],
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "mock_repo_context": {
+      "tree": [
+        {"path": "lib/url.c", "type": "blob"},
+        {"path": "include/curl/curl.h", "type": "blob"}
+      ],
+      "files": {
+        "lib/url.c": "/* url handling */\nsize_t max_host = 1024;\nint parse_url_host(const char *host) {\n    if(strlen(host) > max_host) return -1;\n    return 0;\n}\n"
+      }
+    },
+    "notes": "Classic spam report claiming overflow where length check exists."
+  },
+  {
+    "id": "requests-1",
+    "repository": "psf/requests",
+    "number": 5432,
+    "title": "ModuleNotFoundError for nonexistent internal subpackage requests.core.ssl",
+    "body": "Importing `requests.core.ssl` fails in requests/core/ssl.py at line 10. File is missing.",
+    "labels": ["invalid"],
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "mock_repo_context": {
+      "tree": [
+        {"path": "requests/__init__.py", "type": "blob"},
+        {"path": "requests/api.py", "type": "blob"},
+        {"path": "requests/sessions.py", "type": "blob"}
+      ],
+      "files": {
+        "requests/__init__.py": "__version__ = '2.31.0'\n"
+      }
+    },
+    "notes": "References hallucinated files and symbols."
+  },
+  {
+    "id": "flask-1",
+    "repository": "pallets/flask",
+    "number": 4890,
+    "title": "AttributeError: Flask object has no attribute 'secret_key'",
+    "body": "In `src/flask/app.py` line 140, accessing `app.secret_key` raises AttributeError.",
+    "labels": ["confirmed"],
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "mock_repo_context": {
+      "tree": [
+        {"path": "src/flask/app.py", "type": "blob"},
+        {"path": "src/flask/__init__.py", "type": "blob"}
+      ],
+      "files": {
+        "src/flask/app.py": "class Flask:\n    def __init__(self, import_name):\n        self.secret_key = None\n"
+      }
+    },
+    "notes": "Confirmed issue referencing real file and symbol."
+  },
+  {
+    "id": "vague-report-1",
+    "repository": "example/repo",
+    "number": 12,
+    "title": "It is not working for me",
+    "body": "Please fix this immediately, it broke after the latest update.",
+    "labels": ["cannot reproduce"],
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "mock_repo_context": {
+      "tree": [{"path": "README.md", "type": "blob"}],
+      "files": {"README.md": "# Example Project\n"}
+    },
+    "notes": "Zero technical claims, missing environment, versions, and logs."
+  },
+  {
+    "id": "syntax-error-1",
+    "repository": "pallets/click",
+    "number": 2310,
+    "title": "Click crashes when parsing options in core.py",
+    "body": "When calling `Command.parse_args()`, an exception occurs in `click/core.py`.",
+    "labels": ["confirmed"],
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "mock_repo_context": {
+      "tree": [
+        {"path": "src/click/core.py", "type": "blob"},
+        {"path": "src/click/__init__.py", "type": "blob"}
+      ],
+      "files": {
+        "src/click/core.py": "class Command:\n    def parse_args(self, ctx, args):\n        return []\n"
+      }
+    },
+    "notes": "Valid bug report referencing valid class and method."
+  },
+  {
+    "id": "missing-env-1",
+    "repository": "pallets/jinja",
+    "number": 1400,
+    "title": "Template rendering behaves inconsistently",
+    "body": "The output varies between runs. No error message is displayed.",
+    "labels": ["cannot reproduce"],
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "mock_repo_context": {
+      "tree": [{"path": "src/jinja2/environment.py", "type": "blob"}],
+      "files": {"src/jinja2/environment.py": "class Environment:\n    pass\n"}
+    },
+    "notes": "Lacks reproduction steps or demonstrable claim."
+  }
+]
+
