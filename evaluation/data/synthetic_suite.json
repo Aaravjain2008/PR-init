@@ -1,0 +1,3273 @@
+[
+  {
+    "id": "req-6000",
+    "repository": "psf/requests",
+    "number": 6000,
+    "title": "Requests throws 'Value Error: too many values to unpack (expected 2)'",
+    "body": "When making a GET request with params, requests throws ValueError from user script test.py in site-packages.\n\n```python\nimport os\nimport requests\nAPI_KEY = os.getenv('KEY')\nresponse = requests.get('https://api.example.com', params=[('k', API_KEY, 'extra')])\n```\nTested with requests v2.28.1 on Ubuntu 20.04.",
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "split": "test",
+    "filing_date": "2021-10-15",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Error occurs in reporter script due to malformed 3-tuple parameter, outside repo",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "requests/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "requests/api.py",
+          "type": "blob"
+        },
+        {
+          "path": "requests/models.py",
+          "type": "blob"
+        },
+        {
+          "path": "requests/sessions.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "requests/__init__.py": "__version__ = '2.28.1'\n",
+        "requests/api.py": "def request(method, url, **kwargs):\n    pass\ndef get(url, params=None, **kwargs):\n    pass\n",
+        "requests/models.py": "class PreparedRequest:\n    def prepare_url(self, url, params):\n        pass\nclass Response:\n    def __init__(self):\n        self.status_code = None\n",
+        "requests/sessions.py": "class Session:\n    def request(self, method, url, **kwargs):\n        pass\n",
+        "setup.py": "version = '2.28.1'\n",
+        "README.md": "# Requests\nHTTP for Humans.\n"
+      }
+    },
+    "label_unverified": true
+  },
+  {
+    "id": "req-5432",
+    "repository": "psf/requests",
+    "number": 5432,
+    "title": "ModuleNotFoundError: No module named 'requests.core.ssl'",
+    "body": "Importing `requests.core.ssl` fails in `requests/core/ssl.py`. Missing file.",
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "split": "dev",
+    "filing_date": "2020-04-12",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Hallucinated submodule requests.core.ssl",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "requests/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "requests/api.py",
+          "type": "blob"
+        },
+        {
+          "path": "requests/models.py",
+          "type": "blob"
+        },
+        {
+          "path": "requests/sessions.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "requests/__init__.py": "__version__ = '2.28.1'\n",
+        "requests/api.py": "def request(method, url, **kwargs):\n    pass\ndef get(url, params=None, **kwargs):\n    pass\n",
+        "requests/models.py": "class PreparedRequest:\n    def prepare_url(self, url, params):\n        pass\nclass Response:\n    def __init__(self):\n        self.status_code = None\n",
+        "requests/sessions.py": "class Session:\n    def request(self, method, url, **kwargs):\n        pass\n",
+        "setup.py": "version = '2.28.1'\n",
+        "README.md": "# Requests\nHTTP for Humans.\n"
+      }
+    }
+  },
+  {
+    "id": "req-4890",
+    "repository": "psf/requests",
+    "number": 4890,
+    "title": "Response.status_code should be integer",
+    "body": "In `requests/models.py` line 5, `Response.status_code` can be checked after request.",
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "split": "test",
+    "filing_date": "2019-03-22",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Valid report citing real Response class in models.py",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "requests/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "requests/api.py",
+          "type": "blob"
+        },
+        {
+          "path": "requests/models.py",
+          "type": "blob"
+        },
+        {
+          "path": "requests/sessions.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "requests/__init__.py": "__version__ = '2.28.1'\n",
+        "requests/api.py": "def request(method, url, **kwargs):\n    pass\ndef get(url, params=None, **kwargs):\n    pass\n",
+        "requests/models.py": "class PreparedRequest:\n    def prepare_url(self, url, params):\n        pass\nclass Response:\n    def __init__(self):\n        self.status_code = None\n",
+        "requests/sessions.py": "class Session:\n    def request(self, method, url, **kwargs):\n        pass\n",
+        "setup.py": "version = '2.28.1'\n",
+        "README.md": "# Requests\nHTTP for Humans.\n"
+      }
+    }
+  },
+  {
+    "id": "req-3120",
+    "repository": "psf/requests",
+    "number": 3120,
+    "title": "Session.request fails with empty url",
+    "body": "Calling `Session.request()` in `requests/sessions.py` with empty string raises ValueError.",
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "split": "dev",
+    "filing_date": "2018-01-10",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Valid report citing real Session.request in sessions.py",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "requests/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "requests/api.py",
+          "type": "blob"
+        },
+        {
+          "path": "requests/models.py",
+          "type": "blob"
+        },
+        {
+          "path": "requests/sessions.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "requests/__init__.py": "__version__ = '2.28.1'\n",
+        "requests/api.py": "def request(method, url, **kwargs):\n    pass\ndef get(url, params=None, **kwargs):\n    pass\n",
+        "requests/models.py": "class PreparedRequest:\n    def prepare_url(self, url, params):\n        pass\nclass Response:\n    def __init__(self):\n        self.status_code = None\n",
+        "requests/sessions.py": "class Session:\n    def request(self, method, url, **kwargs):\n        pass\n",
+        "setup.py": "version = '2.28.1'\n",
+        "README.md": "# Requests\nHTTP for Humans.\n"
+      }
+    }
+  },
+  {
+    "id": "req-2901",
+    "repository": "psf/requests",
+    "number": 2901,
+    "title": "requests.telemetry module is leaking credentials",
+    "body": "The file `requests/telemetry.py` sends auth headers to external tracking server.",
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "split": "test",
+    "filing_date": "2017-09-04",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Hallucinated telemetry module that does not exist",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "requests/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "requests/api.py",
+          "type": "blob"
+        },
+        {
+          "path": "requests/models.py",
+          "type": "blob"
+        },
+        {
+          "path": "requests/sessions.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "requests/__init__.py": "__version__ = '2.28.1'\n",
+        "requests/api.py": "def request(method, url, **kwargs):\n    pass\ndef get(url, params=None, **kwargs):\n    pass\n",
+        "requests/models.py": "class PreparedRequest:\n    def prepare_url(self, url, params):\n        pass\nclass Response:\n    def __init__(self):\n        self.status_code = None\n",
+        "requests/sessions.py": "class Session:\n    def request(self, method, url, **kwargs):\n        pass\n",
+        "setup.py": "version = '2.28.1'\n",
+        "README.md": "# Requests\nHTTP for Humans.\n"
+      }
+    }
+  },
+  {
+    "id": "req-1802",
+    "repository": "psf/requests",
+    "number": 1802,
+    "title": "Connection hanging on specific internal endpoint",
+    "body": "Request hangs indefinitely without error. No logs or steps attached.",
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "split": "dev",
+    "filing_date": "2016-05-18",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Missing logs, environment, and reproduction steps",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "requests/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "requests/api.py",
+          "type": "blob"
+        },
+        {
+          "path": "requests/models.py",
+          "type": "blob"
+        },
+        {
+          "path": "requests/sessions.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "requests/__init__.py": "__version__ = '2.28.1'\n",
+        "requests/api.py": "def request(method, url, **kwargs):\n    pass\ndef get(url, params=None, **kwargs):\n    pass\n",
+        "requests/models.py": "class PreparedRequest:\n    def prepare_url(self, url, params):\n        pass\nclass Response:\n    def __init__(self):\n        self.status_code = None\n",
+        "requests/sessions.py": "class Session:\n    def request(self, method, url, **kwargs):\n        pass\n",
+        "setup.py": "version = '2.28.1'\n",
+        "README.md": "# Requests\nHTTP for Humans.\n"
+      }
+    }
+  },
+  {
+    "id": "flask-4890",
+    "repository": "pallets/flask",
+    "number": 4890,
+    "title": "AttributeError: Flask object has no attribute 'secret_key'",
+    "body": "In `src/flask/app.py` accessing `self.secret_key` fails if not initialized.",
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "split": "test",
+    "filing_date": "2022-08-11",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Confirmed referencing real file and symbol",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/flask/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/flask/app.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/flask/blueprints.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/flask/__init__.py": "__version__ = '2.2.0'\n",
+        "src/flask/app.py": "class Flask:\n    def __init__(self, import_name):\n        self.secret_key = None\n    def route(self, rule, **options):\n        pass\n",
+        "src/flask/blueprints.py": "class Blueprint:\n    def __init__(self, name, import_name):\n        self.name = name\n",
+        "pyproject.toml": "[project]\nname = \"flask\"\nversion = \"2.2.0\"\n",
+        "README.md": "# Flask\nThe Python micro framework for building web applications.\n"
+      }
+    }
+  },
+  {
+    "id": "flask-3901",
+    "repository": "pallets/flask",
+    "number": 3901,
+    "title": "Blueprint registration order in src/flask/blueprints.py",
+    "body": "In `src/flask/blueprints.py`, `Blueprint` class does not preserve route decorators.",
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "split": "dev",
+    "filing_date": "2021-02-14",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Confirmed symbol Blueprint in blueprints.py",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/flask/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/flask/app.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/flask/blueprints.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/flask/__init__.py": "__version__ = '2.2.0'\n",
+        "src/flask/app.py": "class Flask:\n    def __init__(self, import_name):\n        self.secret_key = None\n    def route(self, rule, **options):\n        pass\n",
+        "src/flask/blueprints.py": "class Blueprint:\n    def __init__(self, name, import_name):\n        self.name = name\n",
+        "pyproject.toml": "[project]\nname = \"flask\"\nversion = \"2.2.0\"\n",
+        "README.md": "# Flask\nThe Python micro framework for building web applications.\n"
+      }
+    }
+  },
+  {
+    "id": "flask-5120",
+    "repository": "pallets/flask",
+    "number": 5120,
+    "title": "Memory corruption in flask/native_accel.c",
+    "body": "Passing unicode string to `flask/native_accel.c` line 42 causes segfault in `c_parse()`.",
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "split": "test",
+    "filing_date": "2022-11-03",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Fake C extension report for pure-python flask",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/flask/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/flask/app.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/flask/blueprints.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/flask/__init__.py": "__version__ = '2.2.0'\n",
+        "src/flask/app.py": "class Flask:\n    def __init__(self, import_name):\n        self.secret_key = None\n    def route(self, rule, **options):\n        pass\n",
+        "src/flask/blueprints.py": "class Blueprint:\n    def __init__(self, name, import_name):\n        self.name = name\n",
+        "pyproject.toml": "[project]\nname = \"flask\"\nversion = \"2.2.0\"\n",
+        "README.md": "# Flask\nThe Python micro framework for building web applications.\n"
+      }
+    }
+  },
+  {
+    "id": "flask-4200",
+    "repository": "pallets/flask",
+    "number": 4200,
+    "title": "Importing flask.database fails",
+    "body": "The submodule `src/flask/database.py` is missing in flask v2.2.0.",
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "split": "dev",
+    "filing_date": "2021-06-20",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Hallucinated flask.database file",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/flask/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/flask/app.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/flask/blueprints.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/flask/__init__.py": "__version__ = '2.2.0'\n",
+        "src/flask/app.py": "class Flask:\n    def __init__(self, import_name):\n        self.secret_key = None\n    def route(self, rule, **options):\n        pass\n",
+        "src/flask/blueprints.py": "class Blueprint:\n    def __init__(self, name, import_name):\n        self.name = name\n",
+        "pyproject.toml": "[project]\nname = \"flask\"\nversion = \"2.2.0\"\n",
+        "README.md": "# Flask\nThe Python micro framework for building web applications.\n"
+      }
+    }
+  },
+  {
+    "id": "flask-3500",
+    "repository": "pallets/flask",
+    "number": 3500,
+    "title": "Server crashes on my custom server with 500 error",
+    "body": "Flask server stops serving requests after 10 minutes on my company server.",
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "split": "test",
+    "filing_date": "2020-09-12",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Unverifiable server environment, no stack trace or code",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/flask/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/flask/app.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/flask/blueprints.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/flask/__init__.py": "__version__ = '2.2.0'\n",
+        "src/flask/app.py": "class Flask:\n    def __init__(self, import_name):\n        self.secret_key = None\n    def route(self, rule, **options):\n        pass\n",
+        "src/flask/blueprints.py": "class Blueprint:\n    def __init__(self, name, import_name):\n        self.name = name\n",
+        "pyproject.toml": "[project]\nname = \"flask\"\nversion = \"2.2.0\"\n",
+        "README.md": "# Flask\nThe Python micro framework for building web applications.\n"
+      }
+    }
+  },
+  {
+    "id": "flask-2800",
+    "repository": "pallets/flask",
+    "number": 2800,
+    "title": "Slow response times when querying endpoint",
+    "body": "Performance is bad on my machine. No benchmark or reproducible script provided.",
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "split": "dev",
+    "filing_date": "2019-11-05",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "No technical claims, missing environment and repro",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/flask/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/flask/app.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/flask/blueprints.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/flask/__init__.py": "__version__ = '2.2.0'\n",
+        "src/flask/app.py": "class Flask:\n    def __init__(self, import_name):\n        self.secret_key = None\n    def route(self, rule, **options):\n        pass\n",
+        "src/flask/blueprints.py": "class Blueprint:\n    def __init__(self, name, import_name):\n        self.name = name\n",
+        "pyproject.toml": "[project]\nname = \"flask\"\nversion = \"2.2.0\"\n",
+        "README.md": "# Flask\nThe Python micro framework for building web applications.\n"
+      }
+    }
+  },
+  {
+    "id": "click-2310",
+    "repository": "pallets/click",
+    "number": 2310,
+    "title": "Click crashes when parsing options in core.py",
+    "body": "When calling `Command.parse_args()`, an error occurs in `src/click/core.py`.",
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "split": "test",
+    "filing_date": "2022-04-18",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Real Command class in src/click/core.py",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/click/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/click/core.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/click/parser.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/click/__init__.py": "__version__ = '8.1.3'\n",
+        "src/click/core.py": "class Command:\n    def parse_args(self, ctx, args):\n        return []\nclass Group(Command):\n    pass\n",
+        "src/click/parser.py": "class OptionParser:\n    def parse_args(self, args):\n        pass\n",
+        "setup.py": "version = '8.1.3'\n",
+        "README.md": "# Click\nComposable command line interface toolkit.\n"
+      }
+    }
+  },
+  {
+    "id": "click-2100",
+    "repository": "pallets/click",
+    "number": 2100,
+    "title": "Group subcommands parsing in src/click/core.py",
+    "body": "The `Group` class in `src/click/core.py` handles subcommands improperly when aliases used.",
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "split": "dev",
+    "filing_date": "2021-09-02",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Real Group class in src/click/core.py",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/click/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/click/core.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/click/parser.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/click/__init__.py": "__version__ = '8.1.3'\n",
+        "src/click/core.py": "class Command:\n    def parse_args(self, ctx, args):\n        return []\nclass Group(Command):\n    pass\n",
+        "src/click/parser.py": "class OptionParser:\n    def parse_args(self, args):\n        pass\n",
+        "setup.py": "version = '8.1.3'\n",
+        "README.md": "# Click\nComposable command line interface toolkit.\n"
+      }
+    }
+  },
+  {
+    "id": "click-2450",
+    "repository": "pallets/click",
+    "number": 2450,
+    "title": "Buffer overflow in click/fast_lexer.c",
+    "body": "Line 120 in `click/fast_lexer.c` overflows internal buffer when long flag passed.",
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "split": "test",
+    "filing_date": "2022-06-30",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Nonexistent C extension in click",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/click/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/click/core.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/click/parser.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/click/__init__.py": "__version__ = '8.1.3'\n",
+        "src/click/core.py": "class Command:\n    def parse_args(self, ctx, args):\n        return []\nclass Group(Command):\n    pass\n",
+        "src/click/parser.py": "class OptionParser:\n    def parse_args(self, args):\n        pass\n",
+        "setup.py": "version = '8.1.3'\n",
+        "README.md": "# Click\nComposable command line interface toolkit.\n"
+      }
+    }
+  },
+  {
+    "id": "click-1920",
+    "repository": "pallets/click",
+    "number": 1920,
+    "title": "Missing click/gui/dialogs.py in click distribution",
+    "body": "Cannot import `click/gui/dialogs.py` on Linux.",
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "split": "dev",
+    "filing_date": "2020-12-11",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Click has no GUI module",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/click/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/click/core.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/click/parser.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/click/__init__.py": "__version__ = '8.1.3'\n",
+        "src/click/core.py": "class Command:\n    def parse_args(self, ctx, args):\n        return []\nclass Group(Command):\n    pass\n",
+        "src/click/parser.py": "class OptionParser:\n    def parse_args(self, args):\n        pass\n",
+        "setup.py": "version = '8.1.3'\n",
+        "README.md": "# Click\nComposable command line interface toolkit.\n"
+      }
+    }
+  },
+  {
+    "id": "click-1850",
+    "repository": "pallets/click",
+    "number": 1850,
+    "title": "CLI terminates unexpectedly on Windows terminal",
+    "body": "The terminal closes without printing any error message.",
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "split": "test",
+    "filing_date": "2020-07-19",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "No steps, no error log, cannot reproduce",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/click/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/click/core.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/click/parser.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/click/__init__.py": "__version__ = '8.1.3'\n",
+        "src/click/core.py": "class Command:\n    def parse_args(self, ctx, args):\n        return []\nclass Group(Command):\n    pass\n",
+        "src/click/parser.py": "class OptionParser:\n    def parse_args(self, args):\n        pass\n",
+        "setup.py": "version = '8.1.3'\n",
+        "README.md": "# Click\nComposable command line interface toolkit.\n"
+      }
+    }
+  },
+  {
+    "id": "click-1620",
+    "repository": "pallets/click",
+    "number": 1620,
+    "title": "Command fails when run inside container",
+    "body": "Exits with code 1 in my container setup.",
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "split": "dev",
+    "filing_date": "2019-10-08",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "No reproducible command or containerfile",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/click/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/click/core.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/click/parser.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/click/__init__.py": "__version__ = '8.1.3'\n",
+        "src/click/core.py": "class Command:\n    def parse_args(self, ctx, args):\n        return []\nclass Group(Command):\n    pass\n",
+        "src/click/parser.py": "class OptionParser:\n    def parse_args(self, args):\n        pass\n",
+        "setup.py": "version = '8.1.3'\n",
+        "README.md": "# Click\nComposable command line interface toolkit.\n"
+      }
+    }
+  },
+  {
+    "id": "jinja-1650",
+    "repository": "pallets/jinja",
+    "number": 1650,
+    "title": "Environment.get_template raises TemplateNotFound",
+    "body": "In `src/jinja2/environment.py`, `Environment.get_template()` fails when template name has backslashes.",
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "split": "test",
+    "filing_date": "2022-05-14",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Real Environment class and get_template method",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/jinja2/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/jinja2/environment.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/jinja2/parser.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/jinja2/__init__.py": "__version__ = '3.1.2'\n",
+        "src/jinja2/environment.py": "class Environment:\n    def get_template(self, name):\n        pass\n",
+        "src/jinja2/parser.py": "class Parser:\n    def parse(self):\n        pass\n",
+        "pyproject.toml": "[project]\nname = \"jinja2\"\nversion = \"3.1.2\"\n",
+        "README.md": "# Jinja\nA full-featured template engine for Python.\n"
+      }
+    }
+  },
+  {
+    "id": "jinja-1510",
+    "repository": "pallets/jinja",
+    "number": 1510,
+    "title": "Parser error handling in src/jinja2/parser.py",
+    "body": "The `Parser` class in `src/jinja2/parser.py` drops line number context on syntax errors.",
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "split": "dev",
+    "filing_date": "2021-11-20",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Real Parser class in src/jinja2/parser.py",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/jinja2/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/jinja2/environment.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/jinja2/parser.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/jinja2/__init__.py": "__version__ = '3.1.2'\n",
+        "src/jinja2/environment.py": "class Environment:\n    def get_template(self, name):\n        pass\n",
+        "src/jinja2/parser.py": "class Parser:\n    def parse(self):\n        pass\n",
+        "pyproject.toml": "[project]\nname = \"jinja2\"\nversion = \"3.1.2\"\n",
+        "README.md": "# Jinja\nA full-featured template engine for Python.\n"
+      }
+    }
+  },
+  {
+    "id": "jinja-1780",
+    "repository": "pallets/jinja",
+    "number": 1780,
+    "title": "Remote code execution via jinja2/sandbox_eval.py",
+    "body": "Vulnerability in `src/jinja2/sandbox_eval.py` allows sandbox breakout via `eval_node()`.",
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "split": "test",
+    "filing_date": "2022-09-01",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Hallucinated file sandbox_eval.py",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/jinja2/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/jinja2/environment.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/jinja2/parser.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/jinja2/__init__.py": "__version__ = '3.1.2'\n",
+        "src/jinja2/environment.py": "class Environment:\n    def get_template(self, name):\n        pass\n",
+        "src/jinja2/parser.py": "class Parser:\n    def parse(self):\n        pass\n",
+        "pyproject.toml": "[project]\nname = \"jinja2\"\nversion = \"3.1.2\"\n",
+        "README.md": "# Jinja\nA full-featured template engine for Python.\n"
+      }
+    }
+  },
+  {
+    "id": "jinja-1390",
+    "repository": "pallets/jinja",
+    "number": 1390,
+    "title": "Missing database adapter in jinja2/adapters/sql.py",
+    "body": "Cannot load `jinja2/adapters/sql.py` in production.",
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "split": "dev",
+    "filing_date": "2020-08-15",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Jinja has no sql adapter module",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/jinja2/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/jinja2/environment.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/jinja2/parser.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/jinja2/__init__.py": "__version__ = '3.1.2'\n",
+        "src/jinja2/environment.py": "class Environment:\n    def get_template(self, name):\n        pass\n",
+        "src/jinja2/parser.py": "class Parser:\n    def parse(self):\n        pass\n",
+        "pyproject.toml": "[project]\nname = \"jinja2\"\nversion = \"3.1.2\"\n",
+        "README.md": "# Jinja\nA full-featured template engine for Python.\n"
+      }
+    }
+  },
+  {
+    "id": "jinja-1400",
+    "repository": "pallets/jinja",
+    "number": 1400,
+    "title": "Template rendering behaves inconsistently",
+    "body": "The output varies between runs on my machine. No error message is displayed.",
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "split": "test",
+    "filing_date": "2020-10-22",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Missing template source and data",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/jinja2/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/jinja2/environment.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/jinja2/parser.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/jinja2/__init__.py": "__version__ = '3.1.2'\n",
+        "src/jinja2/environment.py": "class Environment:\n    def get_template(self, name):\n        pass\n",
+        "src/jinja2/parser.py": "class Parser:\n    def parse(self):\n        pass\n",
+        "pyproject.toml": "[project]\nname = \"jinja2\"\nversion = \"3.1.2\"\n",
+        "README.md": "# Jinja\nA full-featured template engine for Python.\n"
+      }
+    }
+  },
+  {
+    "id": "jinja-1200",
+    "repository": "pallets/jinja",
+    "number": 1200,
+    "title": "Memory usage grows continuously",
+    "body": "Server RAM goes up over several days under unspecified load.",
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "split": "dev",
+    "filing_date": "2019-06-14",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "No profiling data or reproducible script",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/jinja2/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/jinja2/environment.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/jinja2/parser.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/jinja2/__init__.py": "__version__ = '3.1.2'\n",
+        "src/jinja2/environment.py": "class Environment:\n    def get_template(self, name):\n        pass\n",
+        "src/jinja2/parser.py": "class Parser:\n    def parse(self):\n        pass\n",
+        "pyproject.toml": "[project]\nname = \"jinja2\"\nversion = \"3.1.2\"\n",
+        "README.md": "# Jinja\nA full-featured template engine for Python.\n"
+      }
+    }
+  },
+  {
+    "id": "wz-2401",
+    "repository": "pallets/werkzeug",
+    "number": 2401,
+    "title": "Request.get_data cache issue in request.py",
+    "body": "In `src/werkzeug/wrappers/request.py`, `Request.get_data()` returns cached bytes unexpectedly.",
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "split": "test",
+    "filing_date": "2022-07-10",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Real Request class in request.py",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/werkzeug/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/werkzeug/wrappers/request.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/werkzeug/routing.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/werkzeug/__init__.py": "__version__ = '2.2.2'\n",
+        "src/werkzeug/wrappers/request.py": "class Request:\n    def get_data(self):\n        pass\n",
+        "src/werkzeug/routing.py": "class Map:\n    def bind_to_environ(self, environ):\n        pass\n",
+        "pyproject.toml": "[project]\nname = \"werkzeug\"\nversion = \"2.2.2\"\n",
+        "README.md": "# Werkzeug\nThe comprehensive WSGI web application library.\n"
+      }
+    }
+  },
+  {
+    "id": "wz-2210",
+    "repository": "pallets/werkzeug",
+    "number": 2210,
+    "title": "Map.bind_to_environ raises KeyError on empty SERVER_NAME",
+    "body": "In `src/werkzeug/routing.py`, `Map.bind_to_environ()` fails with KeyError.",
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "split": "dev",
+    "filing_date": "2021-08-19",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Real Map class in routing.py",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/werkzeug/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/werkzeug/wrappers/request.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/werkzeug/routing.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/werkzeug/__init__.py": "__version__ = '2.2.2'\n",
+        "src/werkzeug/wrappers/request.py": "class Request:\n    def get_data(self):\n        pass\n",
+        "src/werkzeug/routing.py": "class Map:\n    def bind_to_environ(self, environ):\n        pass\n",
+        "pyproject.toml": "[project]\nname = \"werkzeug\"\nversion = \"2.2.2\"\n",
+        "README.md": "# Werkzeug\nThe comprehensive WSGI web application library.\n"
+      }
+    }
+  },
+  {
+    "id": "wz-2500",
+    "repository": "pallets/werkzeug",
+    "number": 2500,
+    "title": "Crash in werkzeug/http_parser.c",
+    "body": "Parsing headers in `werkzeug/http_parser.c` crashes on NULL byte.",
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "split": "test",
+    "filing_date": "2022-10-05",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Werkzeug has no http_parser.c",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/werkzeug/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/werkzeug/wrappers/request.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/werkzeug/routing.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/werkzeug/__init__.py": "__version__ = '2.2.2'\n",
+        "src/werkzeug/wrappers/request.py": "class Request:\n    def get_data(self):\n        pass\n",
+        "src/werkzeug/routing.py": "class Map:\n    def bind_to_environ(self, environ):\n        pass\n",
+        "pyproject.toml": "[project]\nname = \"werkzeug\"\nversion = \"2.2.2\"\n",
+        "README.md": "# Werkzeug\nThe comprehensive WSGI web application library.\n"
+      }
+    }
+  },
+  {
+    "id": "wz-1980",
+    "repository": "pallets/werkzeug",
+    "number": 1980,
+    "title": "Missing module werkzeug/security/jwt.py",
+    "body": "Cannot import JWT helper from `src/werkzeug/security/jwt.py`.",
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "split": "dev",
+    "filing_date": "2020-05-11",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Werkzeug does not ship JWT module",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/werkzeug/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/werkzeug/wrappers/request.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/werkzeug/routing.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/werkzeug/__init__.py": "__version__ = '2.2.2'\n",
+        "src/werkzeug/wrappers/request.py": "class Request:\n    def get_data(self):\n        pass\n",
+        "src/werkzeug/routing.py": "class Map:\n    def bind_to_environ(self, environ):\n        pass\n",
+        "pyproject.toml": "[project]\nname = \"werkzeug\"\nversion = \"2.2.2\"\n",
+        "README.md": "# Werkzeug\nThe comprehensive WSGI web application library.\n"
+      }
+    }
+  },
+  {
+    "id": "wz-1890",
+    "repository": "pallets/werkzeug",
+    "number": 1890,
+    "title": "WSGI server drops connection randomly",
+    "body": "Connection reset by peer happens intermittently under load.",
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "split": "test",
+    "filing_date": "2019-12-01",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "No network trace or reproducible script",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/werkzeug/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/werkzeug/wrappers/request.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/werkzeug/routing.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/werkzeug/__init__.py": "__version__ = '2.2.2'\n",
+        "src/werkzeug/wrappers/request.py": "class Request:\n    def get_data(self):\n        pass\n",
+        "src/werkzeug/routing.py": "class Map:\n    def bind_to_environ(self, environ):\n        pass\n",
+        "pyproject.toml": "[project]\nname = \"werkzeug\"\nversion = \"2.2.2\"\n",
+        "README.md": "# Werkzeug\nThe comprehensive WSGI web application library.\n"
+      }
+    }
+  },
+  {
+    "id": "wz-1700",
+    "repository": "pallets/werkzeug",
+    "number": 1700,
+    "title": "Cookie parsing fails on proprietary browser",
+    "body": "Cookies not recognized in internal company webview.",
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "split": "dev",
+    "filing_date": "2018-09-17",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Proprietary client environment, unverifiable",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/werkzeug/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/werkzeug/wrappers/request.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/werkzeug/routing.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/werkzeug/__init__.py": "__version__ = '2.2.2'\n",
+        "src/werkzeug/wrappers/request.py": "class Request:\n    def get_data(self):\n        pass\n",
+        "src/werkzeug/routing.py": "class Map:\n    def bind_to_environ(self, environ):\n        pass\n",
+        "pyproject.toml": "[project]\nname = \"werkzeug\"\nversion = \"2.2.2\"\n",
+        "README.md": "# Werkzeug\nThe comprehensive WSGI web application library.\n"
+      }
+    }
+  },
+  {
+    "id": "httpx-2200",
+    "repository": "encode/httpx",
+    "number": 2200,
+    "title": "Client.get() timeout handling in _client.py",
+    "body": "In `httpx/_client.py`, calling `Client.get()` with custom timeout raises TimeoutException.",
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "split": "test",
+    "filing_date": "2022-06-15",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Real Client class in _client.py",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "httpx/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "httpx/_client.py",
+          "type": "blob"
+        },
+        {
+          "path": "httpx/_models.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "httpx/__init__.py": "__version__ = '0.23.0'\n",
+        "httpx/_client.py": "class Client:\n    def get(self, url, **kwargs):\n        pass\nclass AsyncClient:\n    async def get(self, url, **kwargs):\n        pass\n",
+        "httpx/_models.py": "class Response:\n    def __init__(self, status_code):\n        self.status_code = status_code\n",
+        "pyproject.toml": "[project]\nname = \"httpx\"\nversion = \"0.23.0\"\n",
+        "README.md": "# HTTPX\nA next-generation HTTP client for Python.\n"
+      }
+    }
+  },
+  {
+    "id": "httpx-1850",
+    "repository": "encode/httpx",
+    "number": 1850,
+    "title": "AsyncClient.get() connection pooling",
+    "body": "In `httpx/_client.py`, `AsyncClient.get()` does not reuse connection pool on redirect.",
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "split": "dev",
+    "filing_date": "2021-07-22",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Real AsyncClient class in _client.py",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "httpx/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "httpx/_client.py",
+          "type": "blob"
+        },
+        {
+          "path": "httpx/_models.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "httpx/__init__.py": "__version__ = '0.23.0'\n",
+        "httpx/_client.py": "class Client:\n    def get(self, url, **kwargs):\n        pass\nclass AsyncClient:\n    async def get(self, url, **kwargs):\n        pass\n",
+        "httpx/_models.py": "class Response:\n    def __init__(self, status_code):\n        self.status_code = status_code\n",
+        "pyproject.toml": "[project]\nname = \"httpx\"\nversion = \"0.23.0\"\n",
+        "README.md": "# HTTPX\nA next-generation HTTP client for Python.\n"
+      }
+    }
+  },
+  {
+    "id": "httpx-2340",
+    "repository": "encode/httpx",
+    "number": 2340,
+    "title": "Segfault in httpx/native_transport.so",
+    "body": "Loading `httpx/native_transport.so` causes segfault on ARM64.",
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "split": "test",
+    "filing_date": "2022-09-18",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "HTTPX is pure Python, no native_transport.so",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "httpx/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "httpx/_client.py",
+          "type": "blob"
+        },
+        {
+          "path": "httpx/_models.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "httpx/__init__.py": "__version__ = '0.23.0'\n",
+        "httpx/_client.py": "class Client:\n    def get(self, url, **kwargs):\n        pass\nclass AsyncClient:\n    async def get(self, url, **kwargs):\n        pass\n",
+        "httpx/_models.py": "class Response:\n    def __init__(self, status_code):\n        self.status_code = status_code\n",
+        "pyproject.toml": "[project]\nname = \"httpx\"\nversion = \"0.23.0\"\n",
+        "README.md": "# HTTPX\nA next-generation HTTP client for Python.\n"
+      }
+    }
+  },
+  {
+    "id": "httpx-1600",
+    "repository": "encode/httpx",
+    "number": 1600,
+    "title": "Missing httpx/compat/urllib.py file",
+    "body": "Cannot find compatibility layer in `httpx/compat/urllib.py`.",
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "split": "dev",
+    "filing_date": "2020-11-09",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "No urllib compat file in httpx",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "httpx/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "httpx/_client.py",
+          "type": "blob"
+        },
+        {
+          "path": "httpx/_models.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "httpx/__init__.py": "__version__ = '0.23.0'\n",
+        "httpx/_client.py": "class Client:\n    def get(self, url, **kwargs):\n        pass\nclass AsyncClient:\n    async def get(self, url, **kwargs):\n        pass\n",
+        "httpx/_models.py": "class Response:\n    def __init__(self, status_code):\n        self.status_code = status_code\n",
+        "pyproject.toml": "[project]\nname = \"httpx\"\nversion = \"0.23.0\"\n",
+        "README.md": "# HTTPX\nA next-generation HTTP client for Python.\n"
+      }
+    }
+  },
+  {
+    "id": "httpx-1450",
+    "repository": "encode/httpx",
+    "number": 1450,
+    "title": "HTTPX is slower than curl on my desktop",
+    "body": "Requests take 50ms more than curl on my laptop. Fix please.",
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "split": "test",
+    "filing_date": "2020-04-18",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "No network conditions, benchmark code, or environment",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "httpx/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "httpx/_client.py",
+          "type": "blob"
+        },
+        {
+          "path": "httpx/_models.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "httpx/__init__.py": "__version__ = '0.23.0'\n",
+        "httpx/_client.py": "class Client:\n    def get(self, url, **kwargs):\n        pass\nclass AsyncClient:\n    async def get(self, url, **kwargs):\n        pass\n",
+        "httpx/_models.py": "class Response:\n    def __init__(self, status_code):\n        self.status_code = status_code\n",
+        "pyproject.toml": "[project]\nname = \"httpx\"\nversion = \"0.23.0\"\n",
+        "README.md": "# HTTPX\nA next-generation HTTP client for Python.\n"
+      }
+    }
+  },
+  {
+    "id": "httpx-1200",
+    "repository": "encode/httpx",
+    "number": 1200,
+    "title": "Intermittent SSL handshake failure with corporate proxy",
+    "body": "SSL error occurs through bluecoat proxy. No certs or logs provided.",
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "split": "dev",
+    "filing_date": "2019-10-30",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Corporate proxy issue, missing certificate and log evidence",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "httpx/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "httpx/_client.py",
+          "type": "blob"
+        },
+        {
+          "path": "httpx/_models.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "httpx/__init__.py": "__version__ = '0.23.0'\n",
+        "httpx/_client.py": "class Client:\n    def get(self, url, **kwargs):\n        pass\nclass AsyncClient:\n    async def get(self, url, **kwargs):\n        pass\n",
+        "httpx/_models.py": "class Response:\n    def __init__(self, status_code):\n        self.status_code = status_code\n",
+        "pyproject.toml": "[project]\nname = \"httpx\"\nversion = \"0.23.0\"\n",
+        "README.md": "# HTTPX\nA next-generation HTTP client for Python.\n"
+      }
+    }
+  },
+  {
+    "id": "fastapi-5200",
+    "repository": "tiangolo/fastapi",
+    "number": 5200,
+    "title": "FastAPI.include_router prefix handling",
+    "body": "In `fastapi/applications.py`, `FastAPI.include_router()` strips trailing slashes.",
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "split": "test",
+    "filing_date": "2022-09-12",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Real FastAPI class in applications.py",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "fastapi/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "fastapi/applications.py",
+          "type": "blob"
+        },
+        {
+          "path": "fastapi/routing.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "fastapi/__init__.py": "__version__ = '0.85.0'\n",
+        "fastapi/applications.py": "class FastAPI:\n    def __init__(self):\n        pass\n    def include_router(self, router):\n        pass\n",
+        "fastapi/routing.py": "class APIRoute:\n    pass\n",
+        "pyproject.toml": "[project]\nname = \"fastapi\"\nversion = \"0.85.0\"\n",
+        "README.md": "# FastAPI\nFastAPI framework, high performance, easy to learn.\n"
+      }
+    }
+  },
+  {
+    "id": "fastapi-4100",
+    "repository": "tiangolo/fastapi",
+    "number": 4100,
+    "title": "APIRoute response model validation",
+    "body": "In `fastapi/routing.py`, `APIRoute` does not validate status code 204 body.",
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "split": "dev",
+    "filing_date": "2021-10-04",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Real APIRoute class in routing.py",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "fastapi/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "fastapi/applications.py",
+          "type": "blob"
+        },
+        {
+          "path": "fastapi/routing.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "fastapi/__init__.py": "__version__ = '0.85.0'\n",
+        "fastapi/applications.py": "class FastAPI:\n    def __init__(self):\n        pass\n    def include_router(self, router):\n        pass\n",
+        "fastapi/routing.py": "class APIRoute:\n    pass\n",
+        "pyproject.toml": "[project]\nname = \"fastapi\"\nversion = \"0.85.0\"\n",
+        "README.md": "# FastAPI\nFastAPI framework, high performance, easy to learn.\n"
+      }
+    }
+  },
+  {
+    "id": "fastapi-5400",
+    "repository": "tiangolo/fastapi",
+    "number": 5400,
+    "title": "Vulnerability in fastapi/crypto/jwt_signer.py",
+    "body": "Weak key generation in `fastapi/crypto/jwt_signer.py` line 50.",
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "split": "test",
+    "filing_date": "2022-11-20",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Hallucinated jwt_signer module in fastapi",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "fastapi/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "fastapi/applications.py",
+          "type": "blob"
+        },
+        {
+          "path": "fastapi/routing.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "fastapi/__init__.py": "__version__ = '0.85.0'\n",
+        "fastapi/applications.py": "class FastAPI:\n    def __init__(self):\n        pass\n    def include_router(self, router):\n        pass\n",
+        "fastapi/routing.py": "class APIRoute:\n    pass\n",
+        "pyproject.toml": "[project]\nname = \"fastapi\"\nversion = \"0.85.0\"\n",
+        "README.md": "# FastAPI\nFastAPI framework, high performance, easy to learn.\n"
+      }
+    }
+  },
+  {
+    "id": "fastapi-3900",
+    "repository": "tiangolo/fastapi",
+    "number": 3900,
+    "title": "Missing database manager in fastapi/orm/db.py",
+    "body": "The file `fastapi/orm/db.py` cannot be found after install.",
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "split": "dev",
+    "filing_date": "2021-05-18",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "FastAPI does not have an ORM module",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "fastapi/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "fastapi/applications.py",
+          "type": "blob"
+        },
+        {
+          "path": "fastapi/routing.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "fastapi/__init__.py": "__version__ = '0.85.0'\n",
+        "fastapi/applications.py": "class FastAPI:\n    def __init__(self):\n        pass\n    def include_router(self, router):\n        pass\n",
+        "fastapi/routing.py": "class APIRoute:\n    pass\n",
+        "pyproject.toml": "[project]\nname = \"fastapi\"\nversion = \"0.85.0\"\n",
+        "README.md": "# FastAPI\nFastAPI framework, high performance, easy to learn.\n"
+      }
+    }
+  },
+  {
+    "id": "fastapi-3200",
+    "repository": "tiangolo/fastapi",
+    "number": 3200,
+    "title": "Docs page does not load in Internet Explorer 11",
+    "body": "Swagger UI is blank on IE11. No browser console logs attached.",
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "split": "test",
+    "filing_date": "2020-11-12",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Outdated unsupported client without reproduction logs",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "fastapi/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "fastapi/applications.py",
+          "type": "blob"
+        },
+        {
+          "path": "fastapi/routing.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "fastapi/__init__.py": "__version__ = '0.85.0'\n",
+        "fastapi/applications.py": "class FastAPI:\n    def __init__(self):\n        pass\n    def include_router(self, router):\n        pass\n",
+        "fastapi/routing.py": "class APIRoute:\n    pass\n",
+        "pyproject.toml": "[project]\nname = \"fastapi\"\nversion = \"0.85.0\"\n",
+        "README.md": "# FastAPI\nFastAPI framework, high performance, easy to learn.\n"
+      }
+    }
+  },
+  {
+    "id": "fastapi-2500",
+    "repository": "tiangolo/fastapi",
+    "number": 2500,
+    "title": "App hangs when processing large upload",
+    "body": "Process stops responding during upload on our staging cluster.",
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "split": "dev",
+    "filing_date": "2020-03-01",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "No code sample, upload size, or server config provided",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "fastapi/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "fastapi/applications.py",
+          "type": "blob"
+        },
+        {
+          "path": "fastapi/routing.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "fastapi/__init__.py": "__version__ = '0.85.0'\n",
+        "fastapi/applications.py": "class FastAPI:\n    def __init__(self):\n        pass\n    def include_router(self, router):\n        pass\n",
+        "fastapi/routing.py": "class APIRoute:\n    pass\n",
+        "pyproject.toml": "[project]\nname = \"fastapi\"\nversion = \"0.85.0\"\n",
+        "README.md": "# FastAPI\nFastAPI framework, high performance, easy to learn.\n"
+      }
+    }
+  },
+  {
+    "id": "pyd-4400",
+    "repository": "pydantic/pydantic",
+    "number": 4400,
+    "title": "BaseModel.dict() recursion error with self-referencing models",
+    "body": "In `pydantic/main.py`, calling `BaseModel.dict()` causes infinite recursion on cyclic models.",
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "split": "test",
+    "filing_date": "2022-08-04",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Real BaseModel class in main.py",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "pydantic/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "pydantic/main.py",
+          "type": "blob"
+        },
+        {
+          "path": "pydantic/fields.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "pydantic/__init__.py": "__version__ = '1.10.2'\n",
+        "pydantic/main.py": "class BaseModel:\n    def dict(self):\n        return {}\n",
+        "pydantic/fields.py": "class FieldInfo:\n    pass\n",
+        "pyproject.toml": "[project]\nname = \"pydantic\"\nversion = \"1.10.2\"\n",
+        "README.md": "# Pydantic\nData validation using Python type annotations.\n"
+      }
+    }
+  },
+  {
+    "id": "pyd-3900",
+    "repository": "pydantic/pydantic",
+    "number": 3900,
+    "title": "FieldInfo default factory not called in fields.py",
+    "body": "In `pydantic/fields.py`, `FieldInfo` ignores default_factory when None is passed.",
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "split": "dev",
+    "filing_date": "2021-12-14",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Real FieldInfo class in fields.py",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "pydantic/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "pydantic/main.py",
+          "type": "blob"
+        },
+        {
+          "path": "pydantic/fields.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "pydantic/__init__.py": "__version__ = '1.10.2'\n",
+        "pydantic/main.py": "class BaseModel:\n    def dict(self):\n        return {}\n",
+        "pydantic/fields.py": "class FieldInfo:\n    pass\n",
+        "pyproject.toml": "[project]\nname = \"pydantic\"\nversion = \"1.10.2\"\n",
+        "README.md": "# Pydantic\nData validation using Python type annotations.\n"
+      }
+    }
+  },
+  {
+    "id": "pyd-4600",
+    "repository": "pydantic/pydantic",
+    "number": 4600,
+    "title": "Heap corruption in pydantic/c_speedups.c",
+    "body": "Memory leak in `pydantic/c_speedups.c` at line 88.",
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "split": "test",
+    "filing_date": "2022-10-14",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Nonexistent c_speedups.c file",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "pydantic/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "pydantic/main.py",
+          "type": "blob"
+        },
+        {
+          "path": "pydantic/fields.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "pydantic/__init__.py": "__version__ = '1.10.2'\n",
+        "pydantic/main.py": "class BaseModel:\n    def dict(self):\n        return {}\n",
+        "pydantic/fields.py": "class FieldInfo:\n    pass\n",
+        "pyproject.toml": "[project]\nname = \"pydantic\"\nversion = \"1.10.2\"\n",
+        "README.md": "# Pydantic\nData validation using Python type annotations.\n"
+      }
+    }
+  },
+  {
+    "id": "pyd-3200",
+    "repository": "pydantic/pydantic",
+    "number": 3200,
+    "title": "Cannot import pydantic.serializers.protobuf",
+    "body": "The file `pydantic/serializers/protobuf.py` is missing in v1.10.2.",
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "split": "dev",
+    "filing_date": "2021-04-20",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Hallucinated protobuf serializer",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "pydantic/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "pydantic/main.py",
+          "type": "blob"
+        },
+        {
+          "path": "pydantic/fields.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "pydantic/__init__.py": "__version__ = '1.10.2'\n",
+        "pydantic/main.py": "class BaseModel:\n    def dict(self):\n        return {}\n",
+        "pydantic/fields.py": "class FieldInfo:\n    pass\n",
+        "pyproject.toml": "[project]\nname = \"pydantic\"\nversion = \"1.10.2\"\n",
+        "README.md": "# Pydantic\nData validation using Python type annotations.\n"
+      }
+    }
+  },
+  {
+    "id": "pyd-2800",
+    "repository": "pydantic/pydantic",
+    "number": 2800,
+    "title": "Validation is slow for my 100MB JSON payload",
+    "body": "Takes 2 seconds to parse large file on my laptop. Please optimize.",
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "split": "test",
+    "filing_date": "2020-09-09",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "No model definition or data sample attached",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "pydantic/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "pydantic/main.py",
+          "type": "blob"
+        },
+        {
+          "path": "pydantic/fields.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "pydantic/__init__.py": "__version__ = '1.10.2'\n",
+        "pydantic/main.py": "class BaseModel:\n    def dict(self):\n        return {}\n",
+        "pydantic/fields.py": "class FieldInfo:\n    pass\n",
+        "pyproject.toml": "[project]\nname = \"pydantic\"\nversion = \"1.10.2\"\n",
+        "README.md": "# Pydantic\nData validation using Python type annotations.\n"
+      }
+    }
+  },
+  {
+    "id": "pyd-2100",
+    "repository": "pydantic/pydantic",
+    "number": 2100,
+    "title": "Type error with custom class",
+    "body": "Validation fails with my custom metaclass. No code attached.",
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "split": "dev",
+    "filing_date": "2019-12-10",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Missing code and reproduction steps",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "pydantic/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "pydantic/main.py",
+          "type": "blob"
+        },
+        {
+          "path": "pydantic/fields.py",
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "pydantic/__init__.py": "__version__ = '1.10.2'\n",
+        "pydantic/main.py": "class BaseModel:\n    def dict(self):\n        return {}\n",
+        "pydantic/fields.py": "class FieldInfo:\n    pass\n",
+        "pyproject.toml": "[project]\nname = \"pydantic\"\nversion = \"1.10.2\"\n",
+        "README.md": "# Pydantic\nData validation using Python type annotations.\n"
+      }
+    }
+  },
+  {
+    "id": "pytest-10100",
+    "repository": "pytest-dev/pytest",
+    "number": 10100,
+    "title": "pytest_runtest_protocol hook order in runner.py",
+    "body": "In `src/_pytest/runner.py`, `pytest_runtest_protocol()` does not pass nextitem correctly.",
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "split": "test",
+    "filing_date": "2022-07-28",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Real pytest_runtest_protocol in runner.py",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/_pytest/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/_pytest/runner.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/_pytest/assertion.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.cfg",
+          "type": "blob"
+        },
+        {
+          "path": "README.rst",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/_pytest/__init__.py": "__version__ = '7.1.3'\n",
+        "src/_pytest/runner.py": "class CallInfo:\n    pass\ndef pytest_runtest_protocol(item, nextitem):\n    pass\n",
+        "src/_pytest/assertion.py": "class AssertionRewriter:\n    pass\n",
+        "setup.cfg": "[metadata]\nversion = 7.1.3\n",
+        "README.rst": "pytest: simple powerful testing with Python\n"
+      }
+    }
+  },
+  {
+    "id": "pytest-9200",
+    "repository": "pytest-dev/pytest",
+    "number": 9200,
+    "title": "AssertionRewriter fails on complex walrus operator",
+    "body": "In `src/_pytest/assertion.py`, `AssertionRewriter` crashes when AST contains named expressions.",
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "split": "dev",
+    "filing_date": "2021-08-30",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Real AssertionRewriter in assertion.py",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/_pytest/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/_pytest/runner.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/_pytest/assertion.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.cfg",
+          "type": "blob"
+        },
+        {
+          "path": "README.rst",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/_pytest/__init__.py": "__version__ = '7.1.3'\n",
+        "src/_pytest/runner.py": "class CallInfo:\n    pass\ndef pytest_runtest_protocol(item, nextitem):\n    pass\n",
+        "src/_pytest/assertion.py": "class AssertionRewriter:\n    pass\n",
+        "setup.cfg": "[metadata]\nversion = 7.1.3\n",
+        "README.rst": "pytest: simple powerful testing with Python\n"
+      }
+    }
+  },
+  {
+    "id": "pytest-10500",
+    "repository": "pytest-dev/pytest",
+    "number": 10500,
+    "title": "Crash in _pytest/vendored/speedup.c",
+    "body": "Segfault in `src/_pytest/vendored/speedup.c` line 20.",
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "split": "test",
+    "filing_date": "2022-10-25",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Pytest has no speedup.c extension",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/_pytest/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/_pytest/runner.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/_pytest/assertion.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.cfg",
+          "type": "blob"
+        },
+        {
+          "path": "README.rst",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/_pytest/__init__.py": "__version__ = '7.1.3'\n",
+        "src/_pytest/runner.py": "class CallInfo:\n    pass\ndef pytest_runtest_protocol(item, nextitem):\n    pass\n",
+        "src/_pytest/assertion.py": "class AssertionRewriter:\n    pass\n",
+        "setup.cfg": "[metadata]\nversion = 7.1.3\n",
+        "README.rst": "pytest: simple powerful testing with Python\n"
+      }
+    }
+  },
+  {
+    "id": "pytest-8800",
+    "repository": "pytest-dev/pytest",
+    "number": 8800,
+    "title": "Missing module _pytest/plugins/gui.py",
+    "body": "Cannot import `src/_pytest/plugins/gui.py`.",
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "split": "dev",
+    "filing_date": "2021-03-12",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "No gui plugin in pytest core",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/_pytest/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/_pytest/runner.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/_pytest/assertion.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.cfg",
+          "type": "blob"
+        },
+        {
+          "path": "README.rst",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/_pytest/__init__.py": "__version__ = '7.1.3'\n",
+        "src/_pytest/runner.py": "class CallInfo:\n    pass\ndef pytest_runtest_protocol(item, nextitem):\n    pass\n",
+        "src/_pytest/assertion.py": "class AssertionRewriter:\n    pass\n",
+        "setup.cfg": "[metadata]\nversion = 7.1.3\n",
+        "README.rst": "pytest: simple powerful testing with Python\n"
+      }
+    }
+  },
+  {
+    "id": "pytest-7900",
+    "repository": "pytest-dev/pytest",
+    "number": 7900,
+    "title": "Tests hang on Jenkins worker randomly",
+    "body": "Build hangs indefinitely once every 50 runs. No trace available.",
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "split": "test",
+    "filing_date": "2020-08-11",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Flaky CI runner, no traceback or reproduction",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/_pytest/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/_pytest/runner.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/_pytest/assertion.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.cfg",
+          "type": "blob"
+        },
+        {
+          "path": "README.rst",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/_pytest/__init__.py": "__version__ = '7.1.3'\n",
+        "src/_pytest/runner.py": "class CallInfo:\n    pass\ndef pytest_runtest_protocol(item, nextitem):\n    pass\n",
+        "src/_pytest/assertion.py": "class AssertionRewriter:\n    pass\n",
+        "setup.cfg": "[metadata]\nversion = 7.1.3\n",
+        "README.rst": "pytest: simple powerful testing with Python\n"
+      }
+    }
+  },
+  {
+    "id": "pytest-6800",
+    "repository": "pytest-dev/pytest",
+    "number": 6800,
+    "title": "Fixture teardown not executed on abort",
+    "body": "Killed the process with SIGKILL and teardown was not called.",
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "split": "dev",
+    "filing_date": "2019-11-20",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "OS kill prevents teardown, user misunderstanding without verifiable bug",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/_pytest/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/_pytest/runner.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/_pytest/assertion.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.cfg",
+          "type": "blob"
+        },
+        {
+          "path": "README.rst",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/_pytest/__init__.py": "__version__ = '7.1.3'\n",
+        "src/_pytest/runner.py": "class CallInfo:\n    pass\ndef pytest_runtest_protocol(item, nextitem):\n    pass\n",
+        "src/_pytest/assertion.py": "class AssertionRewriter:\n    pass\n",
+        "setup.cfg": "[metadata]\nversion = 7.1.3\n",
+        "README.rst": "pytest: simple powerful testing with Python\n"
+      }
+    }
+  },
+  {
+    "id": "u3-2700",
+    "repository": "urllib3/urllib3",
+    "number": 2700,
+    "title": "PoolManager.request fails on invalid scheme",
+    "body": "In `src/urllib3/poolmanager.py`, `PoolManager.request()` raises ValueError on unsupported scheme.",
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "split": "test",
+    "filing_date": "2022-08-20",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Real PoolManager class in poolmanager.py",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/urllib3/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/urllib3/poolmanager.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/urllib3/connectionpool.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.cfg",
+          "type": "blob"
+        },
+        {
+          "path": "README.rst",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/urllib3/__init__.py": "__version__ = '1.26.12'\n",
+        "src/urllib3/poolmanager.py": "class PoolManager:\n    def request(self, method, url, **kwargs):\n        pass\n",
+        "src/urllib3/connectionpool.py": "class HTTPConnectionPool:\n    def urlopen(self, method, url, **kwargs):\n        pass\n",
+        "setup.cfg": "[metadata]\nversion = 1.26.12\n",
+        "README.rst": "urllib3 is a powerful, user-friendly HTTP client for Python.\n"
+      }
+    }
+  },
+  {
+    "id": "u3-2400",
+    "repository": "urllib3/urllib3",
+    "number": 2400,
+    "title": "HTTPConnectionPool.urlopen retries parameter",
+    "body": "In `src/urllib3/connectionpool.py`, `HTTPConnectionPool.urlopen()` ignores retries=False.",
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "split": "dev",
+    "filing_date": "2021-09-15",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Real HTTPConnectionPool class in connectionpool.py",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/urllib3/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/urllib3/poolmanager.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/urllib3/connectionpool.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.cfg",
+          "type": "blob"
+        },
+        {
+          "path": "README.rst",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/urllib3/__init__.py": "__version__ = '1.26.12'\n",
+        "src/urllib3/poolmanager.py": "class PoolManager:\n    def request(self, method, url, **kwargs):\n        pass\n",
+        "src/urllib3/connectionpool.py": "class HTTPConnectionPool:\n    def urlopen(self, method, url, **kwargs):\n        pass\n",
+        "setup.cfg": "[metadata]\nversion = 1.26.12\n",
+        "README.rst": "urllib3 is a powerful, user-friendly HTTP client for Python.\n"
+      }
+    }
+  },
+  {
+    "id": "u3-2850",
+    "repository": "urllib3/urllib3",
+    "number": 2850,
+    "title": "Vulnerability in urllib3/native_crypto.c",
+    "body": "Heap buffer overflow in `src/urllib3/native_crypto.c` at line 140.",
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "split": "test",
+    "filing_date": "2022-11-04",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "urllib3 is pure Python, no native_crypto.c",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/urllib3/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/urllib3/poolmanager.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/urllib3/connectionpool.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.cfg",
+          "type": "blob"
+        },
+        {
+          "path": "README.rst",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/urllib3/__init__.py": "__version__ = '1.26.12'\n",
+        "src/urllib3/poolmanager.py": "class PoolManager:\n    def request(self, method, url, **kwargs):\n        pass\n",
+        "src/urllib3/connectionpool.py": "class HTTPConnectionPool:\n    def urlopen(self, method, url, **kwargs):\n        pass\n",
+        "setup.cfg": "[metadata]\nversion = 1.26.12\n",
+        "README.rst": "urllib3 is a powerful, user-friendly HTTP client for Python.\n"
+      }
+    }
+  },
+  {
+    "id": "u3-2100",
+    "repository": "urllib3/urllib3",
+    "number": 2100,
+    "title": "Missing urllib3/contrib/websocket.py",
+    "body": "Cannot import websocket handler from `src/urllib3/contrib/websocket.py`.",
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "split": "dev",
+    "filing_date": "2020-10-18",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "urllib3 does not have websocket support",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/urllib3/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/urllib3/poolmanager.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/urllib3/connectionpool.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.cfg",
+          "type": "blob"
+        },
+        {
+          "path": "README.rst",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/urllib3/__init__.py": "__version__ = '1.26.12'\n",
+        "src/urllib3/poolmanager.py": "class PoolManager:\n    def request(self, method, url, **kwargs):\n        pass\n",
+        "src/urllib3/connectionpool.py": "class HTTPConnectionPool:\n    def urlopen(self, method, url, **kwargs):\n        pass\n",
+        "setup.cfg": "[metadata]\nversion = 1.26.12\n",
+        "README.rst": "urllib3 is a powerful, user-friendly HTTP client for Python.\n"
+      }
+    }
+  },
+  {
+    "id": "u3-1950",
+    "repository": "urllib3/urllib3",
+    "number": 1950,
+    "title": "Connection dropped by ISP",
+    "body": "My connection drops when downloading from our local university server.",
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "split": "test",
+    "filing_date": "2020-05-10",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Network failure, no packet capture or repro",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/urllib3/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/urllib3/poolmanager.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/urllib3/connectionpool.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.cfg",
+          "type": "blob"
+        },
+        {
+          "path": "README.rst",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/urllib3/__init__.py": "__version__ = '1.26.12'\n",
+        "src/urllib3/poolmanager.py": "class PoolManager:\n    def request(self, method, url, **kwargs):\n        pass\n",
+        "src/urllib3/connectionpool.py": "class HTTPConnectionPool:\n    def urlopen(self, method, url, **kwargs):\n        pass\n",
+        "setup.cfg": "[metadata]\nversion = 1.26.12\n",
+        "README.rst": "urllib3 is a powerful, user-friendly HTTP client for Python.\n"
+      }
+    }
+  },
+  {
+    "id": "u3-1600",
+    "repository": "urllib3/urllib3",
+    "number": 1600,
+    "title": "Very high CPU usage during idle connection",
+    "body": "CPU spikes on my server. No reproduction code or profile attached.",
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "split": "dev",
+    "filing_date": "2019-04-12",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Missing profile and environment information",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "src/urllib3/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/urllib3/poolmanager.py",
+          "type": "blob"
+        },
+        {
+          "path": "src/urllib3/connectionpool.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.cfg",
+          "type": "blob"
+        },
+        {
+          "path": "README.rst",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "src/urllib3/__init__.py": "__version__ = '1.26.12'\n",
+        "src/urllib3/poolmanager.py": "class PoolManager:\n    def request(self, method, url, **kwargs):\n        pass\n",
+        "src/urllib3/connectionpool.py": "class HTTPConnectionPool:\n    def urlopen(self, method, url, **kwargs):\n        pass\n",
+        "setup.cfg": "[metadata]\nversion = 1.26.12\n",
+        "README.rst": "urllib3 is a powerful, user-friendly HTTP client for Python.\n"
+      }
+    }
+  },
+  {
+    "id": "tor-3100",
+    "repository": "tornadoweb/tornado",
+    "number": 3100,
+    "title": "RequestHandler.get() async handler error handling",
+    "body": "In `tornado/web.py`, `RequestHandler.get()` does not catch exceptions raised in background task.",
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "split": "test",
+    "filing_date": "2022-07-01",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Real RequestHandler in tornado/web.py",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "tornado/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "tornado/web.py",
+          "type": "blob"
+        },
+        {
+          "path": "tornado/ioloop.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "type": "blob"
+        },
+        {
+          "path": "README.rst",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "tornado/__init__.py": "version = '6.2.0'\n",
+        "tornado/web.py": "class RequestHandler:\n    def get(self, *args, **kwargs):\n        pass\nclass Application:\n    pass\n",
+        "tornado/ioloop.py": "class IOLoop:\n    def current(self):\n        pass\n",
+        "setup.py": "version = '6.2.0'\n",
+        "README.rst": "Tornado is a Python web framework and asynchronous networking library.\n"
+      }
+    }
+  },
+  {
+    "id": "tor-2800",
+    "repository": "tornadoweb/tornado",
+    "number": 2800,
+    "title": "IOLoop.current() thread local context",
+    "body": "In `tornado/ioloop.py`, `IOLoop.current()` returns None if called from new thread.",
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "split": "dev",
+    "filing_date": "2021-04-15",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Real IOLoop in tornado/ioloop.py",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "tornado/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "tornado/web.py",
+          "type": "blob"
+        },
+        {
+          "path": "tornado/ioloop.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "type": "blob"
+        },
+        {
+          "path": "README.rst",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "tornado/__init__.py": "version = '6.2.0'\n",
+        "tornado/web.py": "class RequestHandler:\n    def get(self, *args, **kwargs):\n        pass\nclass Application:\n    pass\n",
+        "tornado/ioloop.py": "class IOLoop:\n    def current(self):\n        pass\n",
+        "setup.py": "version = '6.2.0'\n",
+        "README.rst": "Tornado is a Python web framework and asynchronous networking library.\n"
+      }
+    }
+  },
+  {
+    "id": "tor-3250",
+    "repository": "tornadoweb/tornado",
+    "number": 3250,
+    "title": "Security vulnerability in tornado/c_parser.c",
+    "body": "Use-after-free in `tornado/c_parser.c` at line 77.",
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "split": "test",
+    "filing_date": "2022-10-18",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Hallucinated c_parser.c file",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "tornado/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "tornado/web.py",
+          "type": "blob"
+        },
+        {
+          "path": "tornado/ioloop.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "type": "blob"
+        },
+        {
+          "path": "README.rst",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "tornado/__init__.py": "version = '6.2.0'\n",
+        "tornado/web.py": "class RequestHandler:\n    def get(self, *args, **kwargs):\n        pass\nclass Application:\n    pass\n",
+        "tornado/ioloop.py": "class IOLoop:\n    def current(self):\n        pass\n",
+        "setup.py": "version = '6.2.0'\n",
+        "README.rst": "Tornado is a Python web framework and asynchronous networking library.\n"
+      }
+    }
+  },
+  {
+    "id": "tor-2600",
+    "repository": "tornadoweb/tornado",
+    "number": 2600,
+    "title": "Missing module tornado/database/postgres.py",
+    "body": "Importing `tornado/database/postgres.py` fails.",
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "split": "dev",
+    "filing_date": "2020-09-05",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Tornado removed database module in version 3",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "tornado/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "tornado/web.py",
+          "type": "blob"
+        },
+        {
+          "path": "tornado/ioloop.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "type": "blob"
+        },
+        {
+          "path": "README.rst",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "tornado/__init__.py": "version = '6.2.0'\n",
+        "tornado/web.py": "class RequestHandler:\n    def get(self, *args, **kwargs):\n        pass\nclass Application:\n    pass\n",
+        "tornado/ioloop.py": "class IOLoop:\n    def current(self):\n        pass\n",
+        "setup.py": "version = '6.2.0'\n",
+        "README.rst": "Tornado is a Python web framework and asynchronous networking library.\n"
+      }
+    }
+  },
+  {
+    "id": "tor-2400",
+    "repository": "tornadoweb/tornado",
+    "number": 2400,
+    "title": "Websocket closes unexpectedly on mobile client",
+    "body": "Connection drops when client moves from wifi to 4g.",
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "split": "test",
+    "filing_date": "2020-02-14",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Mobile network change, not reproducible",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "tornado/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "tornado/web.py",
+          "type": "blob"
+        },
+        {
+          "path": "tornado/ioloop.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "type": "blob"
+        },
+        {
+          "path": "README.rst",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "tornado/__init__.py": "version = '6.2.0'\n",
+        "tornado/web.py": "class RequestHandler:\n    def get(self, *args, **kwargs):\n        pass\nclass Application:\n    pass\n",
+        "tornado/ioloop.py": "class IOLoop:\n    def current(self):\n        pass\n",
+        "setup.py": "version = '6.2.0'\n",
+        "README.rst": "Tornado is a Python web framework and asynchronous networking library.\n"
+      }
+    }
+  },
+  {
+    "id": "tor-2100",
+    "repository": "tornadoweb/tornado",
+    "number": 2100,
+    "title": "Server stops responding after high load spike",
+    "body": "Hang under load on our staging environment.",
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "split": "dev",
+    "filing_date": "2019-01-20",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "No load script or server config provided",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "tornado/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "tornado/web.py",
+          "type": "blob"
+        },
+        {
+          "path": "tornado/ioloop.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "type": "blob"
+        },
+        {
+          "path": "README.rst",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "tornado/__init__.py": "version = '6.2.0'\n",
+        "tornado/web.py": "class RequestHandler:\n    def get(self, *args, **kwargs):\n        pass\nclass Application:\n    pass\n",
+        "tornado/ioloop.py": "class IOLoop:\n    def current(self):\n        pass\n",
+        "setup.py": "version = '6.2.0'\n",
+        "README.rst": "Tornado is a Python web framework and asynchronous networking library.\n"
+      }
+    }
+  },
+  {
+    "id": "aio-6900",
+    "repository": "aio-libs/aiohttp",
+    "number": 6900,
+    "title": "ClientSession.get() timeout parameter in client.py",
+    "body": "In `aiohttp/client.py`, `ClientSession.get()` does not respect ClientTimeout total.",
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "split": "test",
+    "filing_date": "2022-09-22",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Real ClientSession class in client.py",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "aiohttp/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "aiohttp/client.py",
+          "type": "blob"
+        },
+        {
+          "path": "aiohttp/web.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "type": "blob"
+        },
+        {
+          "path": "README.rst",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "aiohttp/__init__.py": "__version__ = '3.8.3'\n",
+        "aiohttp/client.py": "class ClientSession:\n    async def get(self, url, **kwargs):\n        pass\n",
+        "aiohttp/web.py": "class Application:\n    def add_routes(self, routes):\n        pass\n",
+        "setup.py": "version = '3.8.3'\n",
+        "README.rst": "Asynchronous HTTP client/server framework for asyncio and Python.\n"
+      }
+    }
+  },
+  {
+    "id": "aio-6200",
+    "repository": "aio-libs/aiohttp",
+    "number": 6200,
+    "title": "Application.add_routes() duplicate route registration",
+    "body": "In `aiohttp/web.py`, `Application.add_routes()` allows duplicate path prefixes without warning.",
+    "ground_truth_label": "confirmed",
+    "expected_assessment": "No strong concern found",
+    "split": "dev",
+    "filing_date": "2021-10-18",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Real Application class in web.py",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "aiohttp/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "aiohttp/client.py",
+          "type": "blob"
+        },
+        {
+          "path": "aiohttp/web.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "type": "blob"
+        },
+        {
+          "path": "README.rst",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "aiohttp/__init__.py": "__version__ = '3.8.3'\n",
+        "aiohttp/client.py": "class ClientSession:\n    async def get(self, url, **kwargs):\n        pass\n",
+        "aiohttp/web.py": "class Application:\n    def add_routes(self, routes):\n        pass\n",
+        "setup.py": "version = '3.8.3'\n",
+        "README.rst": "Asynchronous HTTP client/server framework for asyncio and Python.\n"
+      }
+    }
+  },
+  {
+    "id": "aio-7100",
+    "repository": "aio-libs/aiohttp",
+    "number": 7100,
+    "title": "Buffer overflow in aiohttp/speedups/fast_http.c",
+    "body": "Passing oversized header to `aiohttp/speedups/fast_http.c` crashes Python.",
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "split": "test",
+    "filing_date": "2022-11-15",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Hallucinated fast_http.c file",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "aiohttp/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "aiohttp/client.py",
+          "type": "blob"
+        },
+        {
+          "path": "aiohttp/web.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "type": "blob"
+        },
+        {
+          "path": "README.rst",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "aiohttp/__init__.py": "__version__ = '3.8.3'\n",
+        "aiohttp/client.py": "class ClientSession:\n    async def get(self, url, **kwargs):\n        pass\n",
+        "aiohttp/web.py": "class Application:\n    def add_routes(self, routes):\n        pass\n",
+        "setup.py": "version = '3.8.3'\n",
+        "README.rst": "Asynchronous HTTP client/server framework for asyncio and Python.\n"
+      }
+    }
+  },
+  {
+    "id": "aio-5800",
+    "repository": "aio-libs/aiohttp",
+    "number": 5800,
+    "title": "Missing module aiohttp/auth/oauth2.py",
+    "body": "Cannot import OAuth provider from `aiohttp/auth/oauth2.py`.",
+    "ground_truth_label": "invalid",
+    "expected_assessment": "Review recommended",
+    "split": "dev",
+    "filing_date": "2021-03-08",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "aiohttp does not provide built-in oauth2",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "aiohttp/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "aiohttp/client.py",
+          "type": "blob"
+        },
+        {
+          "path": "aiohttp/web.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "type": "blob"
+        },
+        {
+          "path": "README.rst",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "aiohttp/__init__.py": "__version__ = '3.8.3'\n",
+        "aiohttp/client.py": "class ClientSession:\n    async def get(self, url, **kwargs):\n        pass\n",
+        "aiohttp/web.py": "class Application:\n    def add_routes(self, routes):\n        pass\n",
+        "setup.py": "version = '3.8.3'\n",
+        "README.rst": "Asynchronous HTTP client/server framework for asyncio and Python.\n"
+      }
+    }
+  },
+  {
+    "id": "aio-5200",
+    "repository": "aio-libs/aiohttp",
+    "number": 5200,
+    "title": "Intermittent connection reset during high concurrency",
+    "body": "Server drops connections under 10k concurrent clients on custom EC2.",
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "split": "test",
+    "filing_date": "2020-07-14",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "OS file descriptor / network limit, not reproducible",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "aiohttp/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "aiohttp/client.py",
+          "type": "blob"
+        },
+        {
+          "path": "aiohttp/web.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "type": "blob"
+        },
+        {
+          "path": "README.rst",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "aiohttp/__init__.py": "__version__ = '3.8.3'\n",
+        "aiohttp/client.py": "class ClientSession:\n    async def get(self, url, **kwargs):\n        pass\n",
+        "aiohttp/web.py": "class Application:\n    def add_routes(self, routes):\n        pass\n",
+        "setup.py": "version = '3.8.3'\n",
+        "README.rst": "Asynchronous HTTP client/server framework for asyncio and Python.\n"
+      }
+    }
+  },
+  {
+    "id": "aio-4500",
+    "repository": "aio-libs/aiohttp",
+    "number": 4500,
+    "title": "Client hangs when reading streaming response",
+    "body": "Stream reader blocks indefinitely on specific internal stream.",
+    "ground_truth_label": "cannot reproduce",
+    "expected_assessment": "Insufficient evidence",
+    "split": "dev",
+    "filing_date": "2019-12-04",
+    "selection_method": "Synthetic case written by the project team",
+    "synthetic": true,
+    "notes": "Missing stream server and reproduction code",
+    "mock_repo_context": {
+      "tree": [
+        {
+          "path": "aiohttp/__init__.py",
+          "type": "blob"
+        },
+        {
+          "path": "aiohttp/client.py",
+          "type": "blob"
+        },
+        {
+          "path": "aiohttp/web.py",
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "type": "blob"
+        },
+        {
+          "path": "README.rst",
+          "type": "blob"
+        }
+      ],
+      "files": {
+        "aiohttp/__init__.py": "__version__ = '3.8.3'\n",
+        "aiohttp/client.py": "class ClientSession:\n    async def get(self, url, **kwargs):\n        pass\n",
+        "aiohttp/web.py": "class Application:\n    def add_routes(self, routes):\n        pass\n",
+        "setup.py": "version = '3.8.3'\n",
+        "README.rst": "Asynchronous HTTP client/server framework for asyncio and Python.\n"
+      }
+    }
+  }
+]

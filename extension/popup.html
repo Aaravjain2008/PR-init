@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RepoGuard Triage</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <header class="popup-header">
+      <div class="header-brand">
+        <svg class="header-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="M9 12l2 2 4-4"/>
+        </svg>
+        <span class="header-title">RepoGuard</span>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="btn-toggle-settings" title="Settings" aria-label="Settings">
+          ⚙️
+        </button>
+        <div class="engine-indicator" id="engine-status-pill">
+          <span class="engine-dot"></span>
+          <span id="engine-status-label">Checking...</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Settings / Pairing Secret Panel -->
+    <div class="settings-panel" id="settings-panel" style="display: none;">
+      <div class="settings-title">Extension Settings</div>
+      <label for="input-api-secret" class="settings-label">API Pairing Secret:</label>
+      <div class="settings-input-group">
+        <input type="password" id="input-api-secret" placeholder="Enter pairing secret" />
+        <button class="btn btn-secondary" id="btn-save-secret">Save</button>
+      </div>
+      <div class="settings-hint">Required for local API authentication. Find in <code>repoguard.db</code> config or terminal output.</div>
+    </div>
+
+    <!-- Context Info Banner -->
+    <div class="context-banner" id="context-banner">
+      <div class="context-repo" id="context-repo">Detecting GitHub page...</div>
+      <div class="context-item" id="context-item"></div>
+    </div>
+
+    <!-- Main Dynamic View (Stacked Single Column for 400px) -->
+    <main class="popup-content" id="popup-content">
+      <!-- Loading / Progress State -->
+      <div class="state-card" id="state-loading">
+        <div class="spinner"></div>
+        <div class="state-title" id="state-loading-title">Connecting...</div>
+        <div class="state-desc" id="state-loading-text">Connecting to local engine...</div>
+        <!-- Progress Steps -->
+        <div class="progress-steps" id="progress-steps" style="display: none;">
+          <div class="step-item" id="step-fetching">1. Fetching</div>
+          <div class="step-item" id="step-extracting">2. Extracting</div>
+          <div class="step-item" id="step-verifying">3. Verifying</div>
+          <div class="step-item" id="step-complete">4. Complete</div>
+        </div>
+      </div>
+
+      <!-- Engine Offline / Error State -->
+      <div class="state-card error-state" id="state-error" style="display: none;">
+        <span class="status-icon-lg">⚠️</span>
+        <div class="state-title" id="error-title">Engine Unavailable</div>
+        <p class="state-desc" id="error-message">Make sure the RepoGuard engine is running locally (<code>repoguard server</code>).</p>
+        <button class="btn btn-secondary" id="btn-retry-conn">Retry Connection</button>
+      </div>
+
+      <!-- Ready State (Before Scan) -->
+      <div class="state-card" id="state-ready" style="display: none;">
+        <p class="state-desc" id="ready-prompt">Ready to verify technical claims against repository source and documentation.</p>
+        <button class="btn btn-primary" id="btn-start-scan">Verify Claims Now</button>
+      </div>
+
+      <!-- Results Ready State (Stacked 1-column layout) -->
+      <div class="results-container" id="state-results" style="display: none;">
+        <!-- Banner for Stale Results -->
+        <div class="stale-banner" id="stale-banner" style="display: none;">
+          ⚠️ <strong>Stale result:</strong> Verified more than 1 hour ago.
+        </div>
+
+        <!-- System Warnings / Errors -->
+        <div class="alert-box alert-error" id="scan-errors-box" style="display: none;"></div>
+        <div class="alert-box alert-warning" id="scan-warnings-box" style="display: none;"></div>
+
+        <!-- Assessment Card (Single Item) -->
+        <div class="assessment-card" id="assessment-card">
+          <div class="assessment-header">
+            <span class="assessment-title" id="assessment-label">
+              <span id="assessment-icon">❓</span> <span id="assessment-text">Insufficient evidence</span>
+            </span>
+            <span class="confidence-badge" id="confidence-badge">Low Confidence</span>
+          </div>
+          <div class="assessment-reason" id="assessment-reason">Key technical claims could not be verified.</div>
+          <div class="result-age" id="result-age">Verified: Just now</div>
+        </div>
+
+        <!-- Technical Claims Section (Single Column below Assessment) -->
+        <div class="claims-section" id="claims-section">
+          <div class="claims-header">
+            <span>Technical Claims (<span id="claims-count">0</span>)</span>
+          </div>
+          <div class="claims-list" id="claims-list">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Repository Overview State (List of Scanned Items) -->
+      <div class="repo-overview-container" id="state-repo-overview" style="display: none;">
+        <div class="repo-header-row">
+          <div class="repo-overview-title">Scanned Repository Items</div>
+          <button class="btn btn-sm btn-secondary" id="btn-rescan-repo">Rescan All</button>
+        </div>
+        <div class="repo-items-list" id="repo-items-list">
+          <!-- Populated dynamically with each item's assessment, confidence, and link -->
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="popup-footer">
+      <button class="footer-link" id="btn-open-dashboard">Open Dashboard ↗</button>
+      <span class="version-label">v1.0.0</span>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
